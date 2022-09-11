@@ -19,7 +19,7 @@ class Window:
 
         self.text_zone.edit_modified(0)
 
-        self.ws.title('PYTHON GUIDES')
+        self.ws.title('Nuevo documento*')
 
     def openfile(self):
 
@@ -83,15 +83,22 @@ class Window:
 
         menubar = tk.Menu(self.ws)
 
+        # Nuevo
         filemenu = tk.Menu(menubar, tearoff=0)
-        filemenu.add_command(label="New", command=self.file1)
-        filemenu.add_command(label="Open", command=self.openfile)
-        filemenu.add_command(label="Save", command=self.savefile)
-        filemenu.add_command(label="Save as...", command=self.savefileas)
-        filemenu.add_separator()
-        filemenu.add_command(label="Exit", command=self.ws.quit)
+        menubar.add_cascade(label="Nuevo", command=self.file1)
 
-        menubar.add_cascade(label="File", menu=filemenu)
+        # Opciones
+        fileoptions = tk.Menu(menubar, tearoff=0)
+        fileoptions.add_command(label="Abrir", command=self.openfile)
+        fileoptions.add_command(label="Guardar", command=self.savefile)
+        fileoptions.add_command(label="Guardar como...",
+                                command=self.savefileas)
+        fileoptions.add_separator()
+        menubar.add_cascade(label="Opciones", menu=fileoptions)
+
+        # Salir
+        fileoptions = tk.Menu(menubar, tearoff=0)
+        menubar.add_cascade(label="Salir", command=self.ws.quit)
 
         scrollbar = ttk.Scrollbar(
             self.ws, orient=tk.VERTICAL, command=self.text_zone.yview)
