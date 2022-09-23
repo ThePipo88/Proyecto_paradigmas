@@ -1,13 +1,18 @@
 import tkinter as tk
+import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
+from tkinter import *
+from tkinter.ttk import *
 
 
 class Window:
 
     ws = tk.Tk()
     text_zone = tk.Text(ws)
-    text_zone.pack(expand=tk.YES, fill=tk.BOTH, side=tk.LEFT)
+    text_zone.pack(expand=tk.NO, fill=tk.BOTH, side=tk.TOP)
+    text_zone2 = tk.Text(ws)
+    text_zone2.pack(expand=tk.NO, fill=tk.BOTH, side=tk.TOP)
 
     def file1(self):
         if not self.text_zone.edit_modified():
@@ -80,6 +85,11 @@ class Window:
     def initWindow(self):
         self.ws.title('Fuji')
         self.ws.geometry('800x600')
+
+        self.text_zone2.insert(INSERT, "Output")
+        self.text_zone2.config(state=DISABLED)
+        self.text_zone2.config(state=NORMAL)
+        self.text_zone2.insert(INSERT, "\nOutput")
 
         menubar = tk.Menu(self.ws)
 
