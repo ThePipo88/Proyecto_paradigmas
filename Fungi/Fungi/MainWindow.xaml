@@ -5,16 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Fungi"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="43*"/>
-            <ColumnDefinition Width="14*"/>
-            <ColumnDefinition Width="29*"/>
-            <ColumnDefinition Width="714*"/>
-        </Grid.ColumnDefinitions>
-        <Button x:Name="btnHola" Content="Button" Grid.Column="3" HorizontalAlignment="Left" Margin="294,250,0,0" VerticalAlignment="Top" Click="Button_Click" Background="#FFFF2C2C"/>
-        <Label x:Name="lbNombre" Content="Label" Grid.Column="3" HorizontalAlignment="Left" Margin="296,174,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.577,0.226"/>
-
-    </Grid>
+        Title="Fungi" Height="715" Width="1022">
+    <DockPanel LastChildFill="False">
+        <Menu DockPanel.Dock="Top" Height="31">
+            <MenuItem x:Name="opcNuevo" Header="Nuevo" Height="30" Click="MenuItem_Click"/>
+            <MenuItem x:Name="opcOpciones" Header="Opciones">
+                <MenuItem x:Name="opcPalabrasReservadas" Header="Palabras Reservadas"/>
+                <MenuItem x:Name="opcSintaxis" Header="Sintaxis">
+                    <MenuItem x:Name="opcControl" Header="Control"/>
+                    <MenuItem x:Name="opcFunciones" Header="Funciones"/>
+                    <MenuItem x:Name="opcOperaciones" Header="Operaciones"/>
+                </MenuItem>
+                <MenuItem x:Name="opcSemántica" Header="Semántica"/>
+                <MenuItem x:Name="opcTiposDatos" Header="Tipos de datos"/>
+            </MenuItem>
+            <MenuItem x:Name="opcEjecucion" Header="Ejecución">
+                <MenuItem x:Name="opcCompilar" Header="Compilar"/>
+                <MenuItem x:Name="opcEjecutar" Header="Ejecutar"/>
+            </MenuItem>
+            <MenuItem x:Name="opcSalir" Header="Salir"/>
+        </Menu>
+        <StackPanel Width="989" Height="662">
+            <DockPanel Height="509" LastChildFill="False">
+                <TextBox x:Name="fileSpaceBox_Copy" BorderBrush="Black" BorderThickness="1" VerticalScrollBarVisibility="Auto" FontSize="14" KeyDown="fileSpaceBox_KeyDown" TextWrapping="Wrap" TextChanged="fileSpaceBox_TextChanged_1" Width="19" Margin="10,0,0,0" Text="&#xD;&#xA;"/>
+                <TextBox x:Name="fileSpaceBox" BorderBrush="Black" BorderThickness="1" VerticalScrollBarVisibility="Auto" FontSize="14" KeyDown="fileSpaceBox_KeyDown" TextWrapping="Wrap" TextChanged="fileSpaceBox_TextChanged_1" DockPanel.Dock="Right" Width="960"/>
+            </DockPanel>
+            <TextBlock Text="Output" TextWrapping="Wrap" Width="989" Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" Margin="10,15,0,0"/>
+            <TextBox x:Name="txtOutput" BorderBrush="Black" BorderThickness="1" VerticalScrollBarVisibility="Auto" FontSize="14" KeyDown="fileSpaceBox_KeyDown" Height="99" TextWrapping="Wrap" Width="978" Margin="10,0,0,0"/>
+        </StackPanel>
+    </DockPanel>
 </Window>
+        
