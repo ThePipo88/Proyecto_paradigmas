@@ -21,11 +21,12 @@ namespace Fungi
     public partial class MainWindow : Window
     {
 
+        public String numLine = "1\n";
 
         public MainWindow()
         {
             InitializeComponent();
-            this.Title = "Fungi";
+            fileLineSpace.Text = numLine;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -43,22 +44,47 @@ namespace Fungi
 
         }
 
-        private void fileSpaceBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void fileCodeSpace_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                var caretIndex = fileSpaceBox.CaretIndex;
-                fileSpaceBox.Text = fileSpaceBox.Text.Insert(caretIndex, "\n");
-                fileSpaceBox.CaretIndex = caretIndex + 1;
+                var caretIndex = fileCodeSpace.CaretIndex;
+                fileCodeSpace.Text = fileCodeSpace.Text.Insert(caretIndex, "\n");
+                numLine += fileCodeSpace.LineCount.ToString() + "\n";
+                fileLineSpace.Text = numLine;
+                fileCodeSpace.CaretIndex = caretIndex + 1;
             }
         }
 
-        private void fileSpaceBox_TextChanged(object sender, TextChangedEventArgs e)
+
+        private void fileLineSpace_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                var caretIndex = fileLineSpace.CaretIndex;
+                fileLineSpace.Text = fileLineSpace.Text.Insert(caretIndex, "\n");
+                fileLineSpace.CaretIndex = caretIndex + 1;
+            }
+        }
+
+
+        private void txtOutput_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                var caretIndex = txtOutput.CaretIndex;
+                txtOutput.Text = txtOutput.Text.Insert(caretIndex, "\n");
+                txtOutput.CaretIndex = caretIndex + 1;
+            }
+        }
+
+
+        private void fileLineSpace_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }
 
-        private void fileSpaceBox_TextChanged_1(object sender, TextChangedEventArgs e)
+        private void fileCodeSpace_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }
