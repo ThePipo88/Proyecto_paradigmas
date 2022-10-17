@@ -8,7 +8,10 @@
         Title="Fungi" Height="715" Width="1022">
     <DockPanel LastChildFill="False">
         <Menu DockPanel.Dock="Top" Height="31">
-            <MenuItem x:Name="opcNuevo" Header="Nuevo" Height="30" Click="MenuItem_Click"/>
+            <MenuItem x:Name="opcArchivo" Header="Archivo" Height="30">
+                <MenuItem x:Name="opcNuevo" Header="Nuevo" Click="opNuevo_click"/>
+                <MenuItem x:Name="opcAbrir" Header="Abrir" Click="opAbrir_click"/>
+            </MenuItem>
             <MenuItem x:Name="opcOpciones" Header="Opciones">
                 <MenuItem x:Name="opcPalabrasReservadas" Header="Palabras Reservadas"/>
                 <MenuItem x:Name="opcSintaxis" Header="Sintaxis">
@@ -31,13 +34,12 @@
                     <TextBox x:Name="fileLineSpace" BorderBrush="Black" BorderThickness="1" VerticalScrollBarVisibility="Disabled" FontSize="14" KeyDown="fileLineSpace_KeyDown" TextWrapping="Wrap" TextChanged="fileLineSpace_TextChanged" Width="43" Text="&#xA;" Margin="8,0,0,0"/>
                 </ScrollViewer>
                 <ScrollViewer x:Name="sv2" Width="935" HorizontalScrollBarVisibility="Auto" ScrollChanged="ScrollChanged">
-                    <TextBox x:Name="fileCodeSpace" BorderBrush="Black" BorderThickness="1" VerticalScrollBarVisibility="Disabled" FontSize="14" KeyDown="fileCodeSpace_KeyDown" TextWrapping="Wrap" TextChanged="fileCodeSpace_TextChanged" Width="915"/>
+                    <TextBox x:Name="fileCodeSpace" BorderBrush="Black" BorderThickness="1" VerticalScrollBarVisibility="Disabled" FontSize="14" TextWrapping="Wrap" TextChanged="fileCodeSpace_TextChanged" Width="915"/>
                 </ScrollViewer>
             </DockPanel>
             <TextBlock Text="Output" TextWrapping="Wrap" Width="989" Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" Margin="10,15,0,0"/>
             <TextBox x:Name="txtOutput" BorderBrush="Black" BorderThickness="1" VerticalScrollBarVisibility="Auto" FontSize="14" KeyDown="txtOutput_KeyDown" Height="99" TextWrapping="Wrap" Width="978" Margin="10,0,0,0"/>
         </StackPanel>
-        <ScrollViewer Width="166"/>
     </DockPanel>
 </Window>
         

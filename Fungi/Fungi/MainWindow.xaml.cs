@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,10 +23,15 @@ namespace Fungi
     public partial class MainWindow : Window
     {
 
-        public String numLine = "1\n";
+        public String numLine = "1\r\n";
+        public int count = 1;
+
 
         public MainWindow()
         {
+            this.RemoveHandler(KeyDownEvent, new KeyEventHandler(fileCodeSpace_KeyDown));
+
+            this.AddHandler(KeyDownEvent, new KeyEventHandler(fileCodeSpace_KeyDown), true);
             InitializeComponent();
             fileLineSpace.Text = numLine;
         }
@@ -39,20 +46,72 @@ namespace Fungi
 
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void opNuevo_click(object sender, RoutedEventArgs e)
         {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Text file (*.txt)|*.txt";
+            if (saveFileDialog.ShowDialog() == true)
+                File.WriteAllText(saveFileDialog.FileName, fileCodeSpace.Text);
+
+        }
+
+        private void opAbrir_click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new Microsoft.Win32.OpenFileDialog();
+            dialog.FileName = "Document"; // Default file name
+            dialog.DefaultExt = ".txt"; // Default file extension
+            dialog.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
+
+            // Show open file dialog box
+            bool? result = dialog.ShowDialog();
+
+            // Process open file dialog box results
+            if (result == true)
+            {
+                // Open document
+                string filename = dialog.FileName;
+                string[] lines = System.IO.File.ReadAllLines(filename);
+                foreach (string line in lines)
+                {
+                    // Use a tab to indent each line of the file.
+                    fileCodeSpace.Text += line+'\n';
+                }
+            }
 
         }
 
         private void fileCodeSpace_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
+
             if (e.Key == Key.Enter)
             {
+                count++;
+                fileLineSpace.Text = "";
                 var caretIndex = fileCodeSpace.CaretIndex;
                 fileCodeSpace.Text = fileCodeSpace.Text.Insert(caretIndex, "\n");
-                numLine += fileCodeSpace.LineCount.ToString() + "\n";
+                numLine += count.ToString() + "\r\n";
                 fileLineSpace.Text = numLine;
                 fileCodeSpace.CaretIndex = caretIndex + 1;
+            }
+            else if (e.Key == Key.Back)
+            {
+                if (fileCodeSpace.Text[(fileCodeSpace.Text.Length)-1] == '\n')
+                {
+
+                    fileLineSpace.Text = fileLineSpace.Text.Remove(fileLineSpace.Text.LastIndexOf(Environment.NewLine));
+                    fileLineSpace.Text = fileLineSpace.Text.Remove(fileLineSpace.Text.LastIndexOf(Environment.NewLine));
+
+                    fileLineSpace.AppendText("\r\n");
+
+                    numLine = numLine.Remove(numLine.LastIndexOf(Environment.NewLine));
+                    numLine = numLine.Remove(numLine.LastIndexOf(Environment.NewLine));
+                    numLine += "\r\n";
+
+                    var caretIndex = fileCodeSpace.CaretIndex;
+                    count--;
+                    fileCodeSpace.Select((fileCodeSpace.Text.Length), 0);
+                }
+                
             }
         }
 
@@ -61,9 +120,7 @@ namespace Fungi
         {
             if (e.Key == Key.Enter)
             {
-                var caretIndex = fileLineSpace.CaretIndex;
-                fileLineSpace.Text = fileLineSpace.Text.Insert(caretIndex, "\n");
-                fileLineSpace.CaretIndex = caretIndex + 1;
+
             }
         }
 
@@ -115,6 +172,13 @@ namespace Fungi
         private void fileSpaceBox_1(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            fileLineSpace.Text = fileLineSpace.Text.Remove(fileLineSpace.Text.LastIndexOf(Environment.NewLine));
+            fileLineSpace.Text = fileLineSpace.Text.Remove(fileLineSpace.Text.LastIndexOf(Environment.NewLine));
+            fileLineSpace.AppendText("\r\n");
         }
     }
 }
