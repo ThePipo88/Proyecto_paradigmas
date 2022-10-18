@@ -13,11 +13,11 @@
                 <MenuItem x:Name="opcAbrir" Header="Abrir" Click="opAbrir_click"/>
             </MenuItem>
             <MenuItem x:Name="opcOpciones" Header="Opciones">
-                <MenuItem x:Name="opcPalabrasReservadas" Header="Palabras Reservadas"/>
+                <MenuItem x:Name="opcPalabrasReservadas" Header="Palabras Reservadas" Click="opReservadas_click"/>
                 <MenuItem x:Name="opcSintaxis" Header="Sintaxis">
-                    <MenuItem x:Name="opcControl" Header="Control"/>
-                    <MenuItem x:Name="opcFunciones" Header="Funciones"/>
-                    <MenuItem x:Name="opcOperaciones" Header="Operaciones"/>
+                    <MenuItem x:Name="opcControl" Header="Control" Click="opControl_click"/>
+                    <MenuItem x:Name="opcFunciones" Header="Funciones" Click="opFunciones_click"/>
+                    <MenuItem x:Name="opcOperaciones" Header="Operaciones" Click="opOperaciones_click"/>
                 </MenuItem>
                 <MenuItem x:Name="opcSemántica" Header="Semántica"/>
                 <MenuItem x:Name="opcTiposDatos" Header="Tipos de datos"/>

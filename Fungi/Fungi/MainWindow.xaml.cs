@@ -36,15 +36,6 @@ namespace Fungi
             fileLineSpace.Text = numLine;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void opNuevo_click(object sender, RoutedEventArgs e)
         {
@@ -79,6 +70,7 @@ namespace Fungi
             }
 
         }
+
 
         private void fileCodeSpace_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
@@ -159,26 +151,42 @@ namespace Fungi
 
         }
 
-        private void fileSpaceNumber_1(object sender, TextChangedEventArgs e)
+        //Ejemplos
+        private void opReservadas_click(object sender, RoutedEventArgs e)
         {
+            String reservadas = "Number numero = 12.\nFloat flotante = 8,56.\nString mensaje = 'Hello World'.\nFlag bandera = True.\nString nulo = Null.";
+            fileCodeSpace.Text += "\n" + reservadas;
 
         }
 
-        private void txtOutput_TextChanged(object sender, TextChangedEventArgs e)
+        private void opControl_click(object sender, RoutedEventArgs e)
         {
+            String condicionales = "If|h>0|{\n   Print|'Mayor a 0' |.\n}else{\n   Print|'Menor o igual a 0' |.\n}.";
+            String bucles = "For|n,0,10,1|{\n   Print|n|.\n}.\n\nNumber n = 0.\nWhile|n<7|{\n   n++.\n}.";
+            String funciones = "String function hola||{\n  Return|hola|.\n}.\n\nfunction hola||{\n   Print|”Hola”|.\n}.\n\nfunction main{\nString hola = “Como les va”;\n}.\n";
+
+
+            fileCodeSpace.Text += "\n" + condicionales+"\n\n"+ bucles;
 
         }
 
-        private void fileSpaceBox_1(object sender, TextChangedEventArgs e)
+        private void opFunciones_click(object sender, RoutedEventArgs e)
         {
+            String funciones = "String function hola||{\n  Return|hola|.\n}.\n\nfunction hola||{\n   Print|”Hola”|.\n}.\n\nfunction main{\n   String hola = “Como les va”;\n}.\n";
+
+
+            fileCodeSpace.Text += "\n" + funciones;
 
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private void opOperaciones_click(object sender, RoutedEventArgs e)
         {
-            fileLineSpace.Text = fileLineSpace.Text.Remove(fileLineSpace.Text.LastIndexOf(Environment.NewLine));
-            fileLineSpace.Text = fileLineSpace.Text.Remove(fileLineSpace.Text.LastIndexOf(Environment.NewLine));
-            fileLineSpace.AppendText("\r\n");
+            String operaciones = "Number numero1 = 4.\nNumber numero2 = 2.\n\nNumber sum = numero1+numero2.\nNumber rest = numero1-numero2.\nNumber mult = numero1*numero2.\nNumber div = numero1/numero2.";
+
+
+            fileCodeSpace.Text += "\n" + operaciones;
+
         }
+
     }
 }
