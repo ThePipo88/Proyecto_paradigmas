@@ -23,6 +23,7 @@ namespace Fungi
     public partial class MainWindow : Window
     {
 
+        Validations.Contenedores contenedores = new Validations.Contenedores();
         public String numLine = "1\r\n";
         public int count = 1;
 
@@ -87,21 +88,24 @@ namespace Fungi
             }
             else if (e.Key == Key.Back)
             {
-                if (fileCodeSpace.Text[(fileCodeSpace.Text.Length)-1] == '\n')
+                if (fileCodeSpace.Text.Length != 0)
                 {
+                    if (fileCodeSpace.Text[(fileCodeSpace.Text.Length) - 1] == '\n')
+                    {
 
-                    fileLineSpace.Text = fileLineSpace.Text.Remove(fileLineSpace.Text.LastIndexOf(Environment.NewLine));
-                    fileLineSpace.Text = fileLineSpace.Text.Remove(fileLineSpace.Text.LastIndexOf(Environment.NewLine));
+                        fileLineSpace.Text = fileLineSpace.Text.Remove(fileLineSpace.Text.LastIndexOf(Environment.NewLine));
+                        fileLineSpace.Text = fileLineSpace.Text.Remove(fileLineSpace.Text.LastIndexOf(Environment.NewLine));
 
-                    fileLineSpace.AppendText("\r\n");
+                        fileLineSpace.AppendText("\r\n");
 
-                    numLine = numLine.Remove(numLine.LastIndexOf(Environment.NewLine));
-                    numLine = numLine.Remove(numLine.LastIndexOf(Environment.NewLine));
-                    numLine += "\r\n";
+                        numLine = numLine.Remove(numLine.LastIndexOf(Environment.NewLine));
+                        numLine = numLine.Remove(numLine.LastIndexOf(Environment.NewLine));
+                        numLine += "\r\n";
 
-                    var caretIndex = fileCodeSpace.CaretIndex;
-                    count--;
-                    fileCodeSpace.Select((fileCodeSpace.Text.Length), 0);
+                        var caretIndex = fileCodeSpace.CaretIndex;
+                        count--;
+                        fileCodeSpace.Select((fileCodeSpace.Text.Length), 0);
+                    }
                 }
                 
             }
@@ -177,6 +181,7 @@ namespace Fungi
 
             fileCodeSpace.Text += "\n" + funciones;
 
+            sumarLineas();
         }
 
         private void opOperaciones_click(object sender, RoutedEventArgs e)
@@ -188,5 +193,26 @@ namespace Fungi
 
         }
 
+        private void opCompilar_click(object sender, RoutedEventArgs e)
+        {
+            String resultado = contenedores.analisis(fileCodeSpace.Text);
+            System.Diagnostics.Debug.WriteLine(resultado);
+            txtOutput.Text = resultado;
+        }
+
+        private void sumarLineas()
+        {
+            numLine = "";
+            for (int i =0; i < fileCodeSpace.Text.Length; i++)
+            {
+                if (fileCodeSpace.Text[i] == '\n')
+                {
+                    count++;
+                    numLine += count.ToString() + "\r\n";
+                }
+            }
+            fileLineSpace.Text += numLine;
+        }
+        
     }
 }

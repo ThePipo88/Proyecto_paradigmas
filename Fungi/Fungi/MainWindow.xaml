@@ -23,7 +23,7 @@
                 <MenuItem x:Name="opcTiposDatos" Header="Tipos de datos"/>
             </MenuItem>
             <MenuItem x:Name="opcEjecucion" Header="Ejecución">
-                <MenuItem x:Name="opcCompilar" Header="Compilar"/>
+                <MenuItem x:Name="opcCompilar" Header="Compilar" Click="opCompilar_click"/>
                 <MenuItem x:Name="opcEjecutar" Header="Ejecutar"/>
             </MenuItem>
             <MenuItem x:Name="opcSalir" Header="Salir"/>
