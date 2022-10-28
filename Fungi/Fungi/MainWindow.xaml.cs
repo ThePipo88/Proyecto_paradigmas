@@ -24,6 +24,7 @@ namespace Fungi
     {
 
         Validations.Contenedores contenedores = new Validations.Contenedores();
+        Validations.EndLine endLine = new Validations.EndLine();
         public String numLine = "1\r\n";
         public int count = 1;
 
@@ -196,6 +197,7 @@ namespace Fungi
         private void opCompilar_click(object sender, RoutedEventArgs e)
         {
             String resultado = contenedores.analisis(fileCodeSpace.Text);
+            resultado += '\n' + endLine.analisis(fileCodeSpace.Text);
             System.Diagnostics.Debug.WriteLine(resultado);
             txtOutput.Text = resultado;
         }
