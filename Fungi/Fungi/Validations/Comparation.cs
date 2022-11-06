@@ -7,4 +7,5 @@ namespace Fungi.Validations
     class Comparation
     {
     }
+
 }

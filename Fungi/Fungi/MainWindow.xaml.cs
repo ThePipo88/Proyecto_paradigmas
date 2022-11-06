@@ -14,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
+using System.Collections;
 
 namespace Fungi
 {
@@ -25,12 +28,17 @@ namespace Fungi
 
         Validations.Contenedores contenedores = new Validations.Contenedores();
         Validations.EndLine endLine = new Validations.EndLine();
+        Validations.Atributes_Methods atr_mth = new Validations.Atributes_Methods();
         public String numLine = "1\r\n";
         public int count = 1;
+
+        Dictionary<string, object> variables = new Dictionary<string, object>();
+
 
 
         public MainWindow()
         {
+            
             this.RemoveHandler(KeyDownEvent, new KeyEventHandler(fileCodeSpace_KeyDown));
 
             this.AddHandler(KeyDownEvent, new KeyEventHandler(fileCodeSpace_KeyDown), true);
@@ -79,7 +87,6 @@ namespace Fungi
 
             if (e.Key == Key.Enter)
             {
-                count++;
                 fileLineSpace.Text = "";
                 var caretIndex = fileCodeSpace.CaretIndex;
                 fileCodeSpace.Text = fileCodeSpace.Text.Insert(caretIndex, "\n");
@@ -87,38 +94,20 @@ namespace Fungi
                 fileLineSpace.Text = numLine;
                 fileCodeSpace.CaretIndex = caretIndex + 1;
             }
-            else if (e.Key == Key.Back)
+
+            int numeroDeLineas = fileCodeSpace.Text.Split("\n").Length;
+            fileLineSpace.Text = "";
+
+            for (int i = 1; i <= numeroDeLineas; i++)
             {
-                if (fileCodeSpace.Text.Length != 0)
-                {
-                    if (fileCodeSpace.Text[(fileCodeSpace.Text.Length) - 1] == '\n')
-                    {
-
-                        fileLineSpace.Text = fileLineSpace.Text.Remove(fileLineSpace.Text.LastIndexOf(Environment.NewLine));
-                        fileLineSpace.Text = fileLineSpace.Text.Remove(fileLineSpace.Text.LastIndexOf(Environment.NewLine));
-
-                        fileLineSpace.AppendText("\r\n");
-
-                        numLine = numLine.Remove(numLine.LastIndexOf(Environment.NewLine));
-                        numLine = numLine.Remove(numLine.LastIndexOf(Environment.NewLine));
-                        numLine += "\r\n";
-
-                        var caretIndex = fileCodeSpace.CaretIndex;
-                        count--;
-                        fileCodeSpace.Select((fileCodeSpace.Text.Length), 0);
-                    }
-                }
-                
+                fileLineSpace.Text += i.ToString() + "\n";
             }
         }
 
 
         private void fileLineSpace_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
-            {
-
-            }
+            
         }
 
 
@@ -168,7 +157,7 @@ namespace Fungi
         {
             String condicionales = "If|h>0|{\n   Print|'Mayor a 0' |.\n}else{\n   Print|'Menor o igual a 0' |.\n}.";
             String bucles = "For|n,0,10,1|{\n   Print|n|.\n}.\n\nNumber n = 0.\nWhile|n<7|{\n   n++.\n}.";
-            String funciones = "String function hola||{\n  Return|hola|.\n}.\n\nfunction hola||{\n   Print|”Hola”|.\n}.\n\nfunction main{\nString hola = “Como les va”;\n}.\n";
+            String funciones = "String function hola|String hello|{\n  Return|hola|.\n}.\n\nfunction hola||{\n   Print|”Hola”|.\n}.\n\nfunction main{\nString hola = “Como les va”;\n}.\n";
 
 
             fileCodeSpace.Text += "\n" + condicionales+"\n\n"+ bucles;
@@ -177,7 +166,7 @@ namespace Fungi
 
         private void opFunciones_click(object sender, RoutedEventArgs e)
         {
-            String funciones = "String function hola||{\n  Return|hola|.\n}.\n\nfunction hola||{\n   Print|”Hola”|.\n}.\n\nfunction main{\n   String hola = “Como les va”;\n}.\n";
+            String funciones = "String function hola|String hello|{\n  Return|hola|.\n}.\n\nfunction hola||{\n   Print|\"Hola\" |.\n}.\n\nfunction main{\n   String hola = \"Como les va\";\n}.\n";
 
 
             fileCodeSpace.Text += "\n" + funciones;
@@ -198,22 +187,28 @@ namespace Fungi
         {
             String resultado = contenedores.analisis(fileCodeSpace.Text);
             resultado += '\n' + endLine.analisis(fileCodeSpace.Text);
+            resultado += '\n' + atr_mth.analisis(fileCodeSpace.Text);
             System.Diagnostics.Debug.WriteLine(resultado);
             txtOutput.Text = resultado;
+            variables = atr_mth.buscarVariables(fileCodeSpace.Text);
+
+            ;
+            variables.ToList().ForEach(x =>
+            {
+                ArrayList myArrayList = (ArrayList)x.Value;
+                System.Diagnostics.Debug.WriteLine(x.Key+ " "+myArrayList[0]+ " "+myArrayList[1]);
+            });
         }
 
         private void sumarLineas()
         {
-            numLine = "";
-            for (int i =0; i < fileCodeSpace.Text.Length; i++)
+            int numeroDeLineas = fileCodeSpace.Text.Split("\n").Length;
+            fileLineSpace.Text = "";
+
+            for (int i = 1; i <= numeroDeLineas; i++)
             {
-                if (fileCodeSpace.Text[i] == '\n')
-                {
-                    count++;
-                    numLine += count.ToString() + "\r\n";
-                }
+                fileLineSpace.Text += i.ToString() + "\n";
             }
-            fileLineSpace.Text += numLine;
         }
         
     }
