@@ -26,9 +26,8 @@ namespace Fungi
     public partial class MainWindow : Window
     {
 
-        Validations.Contenedores contenedores = new Validations.Contenedores();
-        Validations.EndLine endLine = new Validations.EndLine();
-        Validations.Atributes_Methods atr_mth = new Validations.Atributes_Methods();
+        
+        
         public String numLine = "1\r\n";
         public int count = 1;
 
@@ -157,7 +156,7 @@ namespace Fungi
         {
             String condicionales = "If|h>0|{\n   Print|'Mayor a 0' |.\n}else{\n   Print|'Menor o igual a 0' |.\n}.";
             String bucles = "For|n,0,10,1|{\n   Print|n|.\n}.\n\nNumber n = 0.\nWhile|n<7|{\n   n++.\n}.";
-            String funciones = "String function hola|String hello|{\n  Return|hola|.\n}.\n\nfunction hola||{\n   Print|”Hola”|.\n}.\n\nfunction main{\nString hola = “Como les va”;\n}.\n";
+            String funciones = "String function hola{\n  Return|hola|.\n}.\n\nfunction hola{\n   Print|”Hola”|.\n}.\n\nfunction main{\nString hola = “Como les va”;\n}.\n";
 
 
             fileCodeSpace.Text += "\n" + condicionales+"\n\n"+ bucles;
@@ -166,7 +165,7 @@ namespace Fungi
 
         private void opFunciones_click(object sender, RoutedEventArgs e)
         {
-            String funciones = "String function hola|String hello|{\n  Return|hola|.\n}.\n\nfunction hola||{\n   Print|\"Hola\" |.\n}.\n\nfunction main{\n   String hola = \"Como les va\";\n}.\n";
+            String funciones = "String function hola{\n  Return|hola|.\n}.\n\nfunction hola{\n   Print|\"Hola\" |.\n}.\n\nfunction main{\n   String hola = \"Como les va\".\n \n Number n1 = 3.\n Number n2 = 4.\n Number n3 = n1+n2.\n}.\n";
 
 
             fileCodeSpace.Text += "\n" + funciones;
@@ -185,19 +184,29 @@ namespace Fungi
 
         private void opCompilar_click(object sender, RoutedEventArgs e)
         {
+            Validations.Build build = new Validations.Build();
+            Validations.Contenedores contenedores = new Validations.Contenedores();
+            Validations.EndLine endLine = new Validations.EndLine();
+            Validations.Atributes_Methods atr_mth = new Validations.Atributes_Methods();
+
+            txtOutput.Text = "";
             String resultado = contenedores.analisis(fileCodeSpace.Text);
             resultado += '\n' + endLine.analisis(fileCodeSpace.Text);
             resultado += '\n' + atr_mth.analisis(fileCodeSpace.Text);
-            System.Diagnostics.Debug.WriteLine(resultado);
+            //System.Diagnostics.Debug.WriteLine(resultado);
             txtOutput.Text = resultado;
             variables = atr_mth.buscarVariables(fileCodeSpace.Text);
+            resultado += build.separarCodigo(fileCodeSpace.Text);
+            txtOutput.Text = resultado;
 
-            ;
+            /*
             variables.ToList().ForEach(x =>
             {
                 ArrayList myArrayList = (ArrayList)x.Value;
-                System.Diagnostics.Debug.WriteLine(x.Key+ " "+myArrayList[0]+ " "+myArrayList[1]);
+                System.Diagnostics.Debug.WriteLine(x.Key+ " "+myArrayList[0]+ " "+myArrayList[1]+" " + myArrayList[2]);
             });
+            */
+
         }
 
         private void sumarLineas()

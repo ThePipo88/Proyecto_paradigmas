@@ -30,13 +30,12 @@ namespace Fungi.Validations
             string[] words = codigo.Split('\n');
 
 
-
             for (int i = 0; i < words.Length; i++)
             {
 
                     if (words[i].Length > 1)
                     {
-                    System.Diagnostics.Debug.WriteLine(words[i][(words[i].Length) - 1]);
+                    //System.Diagnostics.Debug.WriteLine(words[i][(words[i].Length) - 1]);
                     if (words[i][(words[i].Length)-1] != '{')
                         {
                         

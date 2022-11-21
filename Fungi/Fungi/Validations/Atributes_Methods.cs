@@ -8,6 +8,7 @@ namespace Fungi.Validations
     class Atributes_Methods
     {
         ArrayList funciones = new ArrayList();
+        Validations.Aritmetics aritmetics = new Validations.Aritmetics();
         String lineErrors = "";
 
         public String analisis(String codigo)
@@ -18,7 +19,7 @@ namespace Fungi.Validations
 
         public void agregarFunciones(String codigo)
         {
-            /*
+            
             bool fnc = false;
             string[] words = codigo.Split('\n');
             ArrayList alm = null;
@@ -81,6 +82,7 @@ namespace Fungi.Validations
                 
             }
 
+            /*
             System.Diagnostics.Debug.WriteLine(funciones.Count);
 
             for (int i = 0; i < funciones.Count; i++)
@@ -90,8 +92,10 @@ namespace Fungi.Validations
                 {
                     System.Diagnostics.Debug.WriteLine(ar[j]);
                 }
-            }*/
+            }
+            */
         }
+
 
         public Dictionary<string, object> buscarVariables(string code) {
 
@@ -104,38 +108,85 @@ namespace Fungi.Validations
                 string[] word = words[i].Split(' ');
                 for (int j = 0; j < word.Length; j++)
                 {
-                    if (word[j] == "String") {
-                        ArrayList vrString = new ArrayList();
-                        vrString.Add("String");
-                        vrString.Add(extraerTexto(words[i]));
-                        variables.Add(word[j + 1], vrString);
-                    }
-                    else if (word[j] == "Float")
-                    {
-                        ArrayList vrFloat = new ArrayList();
-                        vrFloat.Add("Float");
-                        vrFloat.Add(word[j + 3]);
-                        variables.Add(word[j + 1], vrFloat);
-                    }
-                    else if (word[j] == "Flag")
-                    {
-                        ArrayList vrFloat = new ArrayList();
-                        vrFloat.Add("Flag");
-                        vrFloat.Add(word[j + 3]);
-                        variables.Add(word[j + 1], vrFloat);
-                    }
-                    else if (word[j] == "Number")
-                    {
-                        ArrayList vrFloat = new ArrayList();
-                        vrFloat.Add("Number");
-                        vrFloat.Add(word[j + 3]);
-                        variables.Add(word[j + 1], vrFloat);
-                    }
+
+                        if (word[j] == "String")
+                        {
+                            ArrayList vrString = new ArrayList();
+                            vrString.Add("String");
+                            vrString.Add(extraerTexto(words[i]));
+                            vrString.Add(i);
+                            variables.Add(word[j + 1], vrString);
+                        }
+                        else if (word[j] == "Float")
+                        {
+                            ArrayList vrFloat = new ArrayList();
+                            vrFloat.Add("Float");
+                            vrFloat.Add(word[j + 3]);
+                            vrFloat.Add(i);
+                            variables.Add(word[j + 1], vrFloat);
+                        }
+                        else if (word[j] == "Flag")
+                        {
+                            ArrayList vrFlag = new ArrayList();
+                            vrFlag.Add("Flag");
+                            vrFlag.Add(word[j + 3]);
+                            vrFlag.Add(i);
+                            variables.Add(word[j + 1], vrFlag);
+                        }
+                        else if (word[j] == "Number")
+                        {
+
+                        ArrayList vrNumber = new ArrayList();
+
+                        if (words[i].IndexOf("+") != -1 || words[i].IndexOf("-") != -1 || words[i].IndexOf("*") != -1 || words[i].IndexOf("/") != -1)
+                         {
+
+                            vrNumber.Add("Number");
+                            if (words[i].IndexOf("+") != -1)
+                            {
+                                vrNumber.Add(aritmetics.operacionesAritmeticas(words[i], "+",variables));
+
+                            }
+                            else if (words[i].IndexOf("-") != -1)
+                            {
+
+                                vrNumber.Add(aritmetics.operacionesAritmeticas(words[i], "-", variables));
+
+                            }
+                            else if (words[i].IndexOf("*") != -1)
+                            {
+
+                                vrNumber.Add(aritmetics.operacionesAritmeticas(words[i], "*", variables));
+
+                            }
+                            else if (words[i].IndexOf("/") != -1)
+                            {
+                                vrNumber.Add(aritmetics.operacionesAritmeticas(words[i], "/", variables));
+                            }
+                            
+                            vrNumber.Add(i);
+
+                            //System.Diagnostics.Debug.WriteLine(vrNumber[1]);
+
+                            variables.Add(word[j + 1].Trim(), vrNumber);
+                        }
+                        else
+                          {
+                            vrNumber.Add("Number");
+                            int posString = word[j + 3].IndexOf('.');
+                            vrNumber.Add(word[j + 3].Remove(posString));
+                            vrNumber.Add(i);
+                            variables.Add(word[j + 1].Trim(), vrNumber);
+                          }
+                        }
+
+                        variables.Remove("function");
                 }
             }
 
             return variables;
         }
+
 
         private string extraerTexto(string linea)
         {
